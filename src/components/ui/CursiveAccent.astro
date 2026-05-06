@@ -1,0 +1,50 @@
+---
+/**
+ * CursiveAccent — wraps text in cursive (Caveat) font for hero key words.
+ * Slight rotation for hand-drawn feel.
+ */
+
+// === TYPES ===
+interface Props {
+  variant?: 'orange' | 'white' | 'ink';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  rotate?: 'none' | 'subtle' | 'tilt';
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  variant = 'orange',
+  size = 'lg',
+  rotate = 'subtle',
+  class: extraClass = '',
+} = Astro.props;
+
+// === CLASS MAPS ===
+const variantMap: Record<string, string> = {
+  orange: 'text-orange',
+  white: 'text-white',
+  ink: 'text-ink',
+};
+
+const sizeMap: Record<string, string> = {
+  sm: 'text-3xl md:text-4xl',
+  md: 'text-4xl md:text-5xl',
+  lg: 'text-5xl md:text-6xl lg:text-7xl',
+  xl: 'text-6xl md:text-7xl lg:text-8xl',
+};
+
+const rotateMap: Record<string, string> = {
+  none: '',
+  subtle: '-rotate-2',
+  tilt: '-rotate-3',
+};
+
+// === CLASS STRINGS ===
+const cBase = 'inline-block font-cursive font-semibold leading-none';
+const cFinal = cBase + ' ' + variantMap[variant] + ' ' + sizeMap[size] + ' ' + rotateMap[rotate] + ' ' + extraClass;
+---
+
+<span class={cFinal}>
+  <slot />
+</span>

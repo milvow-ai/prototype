@@ -1,0 +1,56 @@
+---
+/**
+ * Section — vertical rhythm wrapper with background variants.
+ */
+
+// === TYPES ===
+interface Props {
+  id?: string;
+  background?: 'none' | 'light' | 'cream' | 'dark' | 'subtle' | 'orange' | 'gradient-orange';
+  spacing?: 'sm' | 'md' | 'lg' | 'xl';
+  ariaLabel?: string;
+  ariaLabelledby?: string;
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  id,
+  background = 'none',
+  spacing = 'lg',
+  ariaLabel,
+  ariaLabelledby,
+  class: extraClass = '',
+} = Astro.props;
+
+// === CLASS MAPS ===
+const backgroundMap: Record<string, string> = {
+  none: '',
+  light: 'bg-bg-light text-ink',
+  cream: 'bg-bg-cream text-ink',
+  dark: 'bg-bg-primary text-white',
+  subtle: 'bg-bg-subtle text-ink',
+  orange: 'bg-orange text-bg-primary',
+  'gradient-orange': 'bg-cta-gradient text-white',
+};
+
+const spacingMap: Record<string, string> = {
+  sm: 'py-12 md:py-16',
+  md: 'py-16 md:py-20',
+  lg: 'py-20 md:py-24 lg:py-28',
+  xl: 'py-24 md:py-32',
+};
+
+// === CLASS STRINGS ===
+const cBase = 'relative w-full';
+const cFinal = cBase + ' ' + backgroundMap[background] + ' ' + spacingMap[spacing] + ' ' + extraClass;
+---
+
+<section
+  id={id}
+  class={cFinal}
+  aria-label={ariaLabel}
+  aria-labelledby={ariaLabelledby}
+>
+  <slot />
+</section>

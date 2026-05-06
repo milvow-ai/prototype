@@ -1,0 +1,43 @@
+---
+/**
+ * Badge — small label/pill for stats, tags, status indicators.
+ */
+
+// === TYPES ===
+interface Props {
+  variant?: 'orange' | 'orange-light' | 'dark' | 'light' | 'outline-white' | 'outline-dark';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  variant = 'orange',
+  size = 'md',
+  class: extraClass = '',
+} = Astro.props;
+
+// === CLASS MAPS ===
+const variantMap: Record<string, string> = {
+  orange: 'bg-orange text-white',
+  'orange-light': 'bg-orange-light text-orange',
+  dark: 'bg-bg-soft text-white border border-edge-dark',
+  light: 'bg-white text-ink border border-edge-light',
+  'outline-white': 'border border-white/30 text-white',
+  'outline-dark': 'border border-edge-dark text-ink-muted',
+};
+
+const sizeMap: Record<string, string> = {
+  sm: 'px-2.5 py-0.5 text-xs',
+  md: 'px-3 py-1 text-xs',
+  lg: 'px-4 py-1.5 text-sm',
+};
+
+// === CLASS STRINGS ===
+const cBase = 'inline-flex items-center gap-1.5 rounded-full font-semibold uppercase tracking-wider whitespace-nowrap';
+const cFinal = cBase + ' ' + variantMap[variant] + ' ' + sizeMap[size] + ' ' + extraClass;
+---
+
+<span class={cFinal}>
+  <slot />
+</span>

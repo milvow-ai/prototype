@@ -1,0 +1,31 @@
+---
+/**
+ * Container — max-width wrapper with horizontal padding.
+ */
+
+// === TYPES ===
+interface Props {
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  class?: string;
+}
+
+// === PROPS ===
+const { size = 'lg', class: extraClass = '' } = Astro.props;
+
+// === CLASS MAPS ===
+const sizeMap: Record<string, string> = {
+  sm: 'max-w-3xl',
+  md: 'max-w-5xl',
+  lg: 'max-w-7xl',
+  xl: 'max-w-screen-xl',
+  full: 'max-w-none',
+};
+
+// === CLASS STRINGS ===
+const cBase = 'mx-auto px-4 sm:px-6 lg:px-8';
+const cFinal = cBase + ' ' + sizeMap[size] + ' ' + extraClass;
+---
+
+<div class={cFinal}>
+  <slot />
+</div>

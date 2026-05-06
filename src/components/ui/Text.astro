@@ -1,0 +1,66 @@
+---
+/**
+ * Text — body text primitive with size + variant + weight + alignment.
+ */
+
+// === TYPES ===
+interface Props {
+  size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
+  variant?: 'default' | 'muted' | 'light' | 'white' | 'white-muted';
+  weight?: 'normal' | 'medium' | 'semibold' | 'bold';
+  align?: 'left' | 'center' | 'right';
+  as?: 'p' | 'span' | 'div';
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  size = 'base',
+  variant = 'default',
+  weight = 'normal',
+  align = 'left',
+  as = 'p',
+  class: extraClass = '',
+} = Astro.props;
+
+// === CLASS MAPS ===
+const sizeMap: Record<string, string> = {
+  xs: 'text-xs',
+  sm: 'text-sm',
+  base: 'text-base',
+  lg: 'text-lg md:text-xl',
+  xl: 'text-xl md:text-2xl',
+};
+
+const variantMap: Record<string, string> = {
+  default: 'text-ink',
+  muted: 'text-ink-muted',
+  light: 'text-ink-light',
+  white: 'text-white',
+  'white-muted': 'text-white-muted',
+};
+
+const weightMap: Record<string, string> = {
+  normal: 'font-normal',
+  medium: 'font-medium',
+  semibold: 'font-semibold',
+  bold: 'font-bold',
+};
+
+const alignMap: Record<string, string> = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+};
+
+// === CLASS STRINGS ===
+const cBase = 'leading-relaxed';
+const cFinal = cBase + ' ' + sizeMap[size] + ' ' + variantMap[variant] + ' ' + weightMap[weight] + ' ' + alignMap[align] + ' ' + extraClass;
+
+// === DYNAMIC TAG ===
+const Tag = as as 'p' | 'span' | 'div';
+---
+
+<Tag class={cFinal}>
+  <slot />
+</Tag>

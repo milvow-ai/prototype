@@ -1,0 +1,73 @@
+---
+/**
+ * Button — polymorphic. Renders <a> if href is set, else <button>.
+ * Variants designed for Solaroofing's alternating dark/light sections.
+ */
+
+// === TYPES ===
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'outline-white' | 'outline-black' | 'black-on-orange' | 'ghost-white';
+  size?: 'sm' | 'md' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+  external?: boolean;
+  ariaLabel?: string;
+  withArrow?: boolean;
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  external = false,
+  ariaLabel,
+  withArrow = false,
+  class: extraClass = '',
+} = Astro.props;
+
+// === CLASS MAPS ===
+const variantMap: Record<string, string> = {
+  primary: 'bg-orange text-white hover:bg-orange-hover hover:scale-105 shadow-lg shadow-orange/25',
+  secondary: 'bg-white text-ink border-2 border-edge-light hover:border-orange hover:scale-105 shadow-sm',
+  'outline-white': 'border-2 border-white text-white hover:bg-white hover:text-bg-primary hover:scale-105',
+  'outline-black': 'border-2 border-bg-primary text-bg-primary hover:bg-bg-primary hover:text-white hover:scale-105',
+  'black-on-orange': 'bg-bg-primary text-white hover:bg-bg-soft hover:scale-105 shadow-lg',
+  'ghost-white': 'text-white hover:text-orange transition-colors',
+};
+
+const sizeMap: Record<string, string> = {
+  sm: 'px-5 py-2 text-sm',
+  md: 'px-6 py-3 text-sm',
+  lg: 'px-8 py-4 text-base',
+};
+
+// === CLASS STRINGS ===
+const cBase = 'group inline-flex items-center justify-center gap-2 font-semibold rounded-full transition-all duration-200 active:scale-95 active:brightness-90 focus-visible:outline-2 focus-visible:outline-orange focus-visible:outline-offset-2 whitespace-nowrap';
+const cFinal = cBase + ' ' + variantMap[variant] + ' ' + sizeMap[size] + ' ' + extraClass;
+const cArrow = 'inline-block transition-transform duration-200 group-hover:translate-x-1';
+
+// === EXTERNAL LINK ATTRS ===
+const externalTarget = external ? '_blank' : undefined;
+const externalRel = external ? 'noopener noreferrer' : undefined;
+---
+
+{href ? (
+  <a
+    href={href}
+    class={cFinal}
+    aria-label={ariaLabel}
+    target={externalTarget}
+    rel={externalRel}
+  >
+    <slot />
+    {withArrow && <span class={cArrow} aria-hidden="true">→</span>}
+  </a>
+) : (
+  <button type={type} class={cFinal} aria-label={ariaLabel}>
+    <slot />
+    {withArrow && <span class={cArrow} aria-hidden="true">→</span>}
+  </button>
+)}

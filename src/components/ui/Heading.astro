@@ -1,0 +1,57 @@
+---
+/**
+ * Heading — h1-h6 with size + alignment + color variants.
+ */
+
+// === TYPES ===
+interface Props {
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  align?: 'left' | 'center' | 'right';
+  variant?: 'default' | 'white' | 'gradient';
+  id?: string;
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  level = 2,
+  size = 'lg',
+  align = 'left',
+  variant = 'default',
+  id,
+  class: extraClass = '',
+} = Astro.props;
+
+// === CLASS MAPS ===
+const sizeMap: Record<string, string> = {
+  sm: 'text-xl md:text-2xl',
+  md: 'text-2xl md:text-3xl',
+  lg: 'text-3xl md:text-4xl lg:text-5xl',
+  xl: 'text-4xl md:text-5xl lg:text-6xl',
+  '2xl': 'text-5xl md:text-6xl lg:text-7xl',
+};
+
+const alignMap: Record<string, string> = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+};
+
+const variantMap: Record<string, string> = {
+  default: 'text-ink',
+  white: 'text-white',
+  gradient: 'text-gradient-orange',
+};
+
+// === CLASS STRINGS ===
+const cBase = 'font-display font-bold tracking-tight leading-tight';
+const cFinal = cBase + ' ' + sizeMap[size] + ' ' + alignMap[align] + ' ' + variantMap[variant] + ' ' + extraClass;
+
+// === DYNAMIC TAG ===
+const Tag = ('h' + level) as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+---
+
+<Tag id={id} class={cFinal}>
+  <slot />
+</Tag>

@@ -1,0 +1,36 @@
+---
+/**
+ * Eyebrow — small accent label above headings.
+ */
+
+// === TYPES ===
+interface Props {
+  variant?: 'plain' | 'pill' | 'orange-pill' | 'white';
+  withDot?: boolean;
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  variant = 'plain',
+  withDot = false,
+  class: extraClass = '',
+} = Astro.props;
+
+// === CLASS MAPS ===
+const variantMap: Record<string, string> = {
+  plain: 'inline-block uppercase tracking-wider text-orange text-xs font-bold',
+  pill: 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-light text-orange text-xs font-bold uppercase tracking-wider',
+  'orange-pill': 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange text-white text-xs font-bold uppercase tracking-wider',
+  white: 'inline-block uppercase tracking-wider text-white text-xs font-bold',
+};
+
+// === CLASS STRINGS ===
+const cFinal = variantMap[variant] + ' ' + extraClass;
+const cDot = 'inline-block w-1.5 h-1.5 rounded-full bg-orange animate-pulse-soft';
+---
+
+<span class={cFinal}>
+  {withDot && <span class={cDot} aria-hidden="true"></span>}
+  <slot />
+</span>

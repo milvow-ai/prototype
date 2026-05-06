@@ -1,0 +1,66 @@
+---
+/**
+ * Input — form text input with label support.
+ */
+
+// === TYPES ===
+interface Props {
+  type?: 'text' | 'email' | 'tel' | 'url' | 'number' | 'search';
+  name: string;
+  id?: string;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  autocomplete?: string;
+  value?: string;
+  variant?: 'light' | 'dark';
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  type = 'text',
+  name,
+  id,
+  label,
+  placeholder,
+  required = false,
+  autocomplete,
+  value,
+  variant = 'light',
+  class: extraClass = '',
+} = Astro.props;
+
+const inputId = id || name;
+
+// === CLASS MAPS ===
+const variantMap: Record<string, string> = {
+  light: 'bg-white text-ink border-edge-light placeholder:text-ink-light focus:border-orange focus:ring-2 focus:ring-orange/20',
+  dark: 'bg-bg-soft text-white border-edge-dark placeholder:text-white-subtle focus:border-orange focus:ring-2 focus:ring-orange/20',
+};
+
+// === CLASS STRINGS ===
+const cLabel = variant === 'dark'
+  ? 'block text-xs font-bold uppercase tracking-wider text-white-muted mb-2'
+  : 'block text-xs font-bold uppercase tracking-wider text-ink-muted mb-2';
+const cInput = 'w-full px-4 py-3 rounded-lg border outline-none transition-all duration-200 text-base';
+const cFinal = cInput + ' ' + variantMap[variant] + ' ' + extraClass;
+const cReq = 'text-orange';
+---
+
+{label && (
+  <label for={inputId} class={cLabel}>
+    {label}
+    {required && <span class={cReq} aria-label="required"> *</span>}
+  </label>
+)}
+<input
+  type={type}
+  id={inputId}
+  name={name}
+  placeholder={placeholder}
+  required={required}
+  autocomplete={autocomplete}
+  value={value}
+  class={cFinal}
+/>

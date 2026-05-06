@@ -1,0 +1,75 @@
+---
+/**
+ * Select — dropdown form input with label support.
+ */
+
+// === TYPES ===
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  name: string;
+  id?: string;
+  label?: string;
+  options: (Option | string)[];
+  required?: boolean;
+  defaultValue?: string;
+  placeholder?: string;
+  variant?: 'light' | 'dark';
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  name,
+  id,
+  label,
+  options = [],
+  required = false,
+  defaultValue,
+  placeholder,
+  variant = 'light',
+  class: extraClass = '',
+} = Astro.props;
+
+const inputId = id || name;
+
+// === NORMALIZE OPTIONS (string or Option) ===
+const normalizedOptions = options.map((opt) =>
+  typeof opt === 'string' ? { value: opt, label: opt } : opt
+);
+
+// === CLASS MAPS ===
+const variantMap: Record<string, string> = {
+  light: 'bg-white text-ink border-edge-light focus:border-orange focus:ring-2 focus:ring-orange/20',
+  dark: 'bg-bg-soft text-white border-edge-dark focus:border-orange focus:ring-2 focus:ring-orange/20',
+};
+
+// === CLASS STRINGS ===
+const cLabel = variant === 'dark'
+  ? 'block text-xs font-bold uppercase tracking-wider text-white-muted mb-2'
+  : 'block text-xs font-bold uppercase tracking-wider text-ink-muted mb-2';
+const cSelect = 'w-full px-4 py-3 rounded-lg border outline-none transition-all duration-200 text-base appearance-none bg-no-repeat pr-10 cursor-pointer';
+const cFinal = cSelect + ' ' + variantMap[variant] + ' ' + extraClass;
+const cReq = 'text-orange';
+
+// === CHEVRON STYLE ===
+const chevronStyle = variant === 'dark'
+  ? "background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23B8B8B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\"); background-position: right 12px center;"
+  : "background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235A5A5A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\"); background-position: right 12px center;";
+---
+
+{label && (
+  <label for={inputId} class={cLabel}>
+    {label}
+    {required && <span class={cReq} aria-label="required"> *</span>}
+  </label>
+)}
+<select id={inputId} name={name} required={required} class={cFinal} style={chevronStyle}>
+  {placeholder && <option value="">{placeholder}</option>}
+  {normalizedOptions.map((opt) => (
+    <option value={opt.value} selected={defaultValue === opt.value}>{opt.label}</option>
+  ))}
+</select>

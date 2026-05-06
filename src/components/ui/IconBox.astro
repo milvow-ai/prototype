@@ -1,0 +1,50 @@
+---
+/**
+ * IconBox — decorative wrapper for icons (rounded background + centered icon slot).
+ */
+
+// === TYPES ===
+interface Props {
+  variant?: 'orange-light' | 'orange' | 'dark' | 'white' | 'cream';
+  size?: 'sm' | 'md' | 'lg';
+  shape?: 'square' | 'rounded' | 'circle';
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  variant = 'orange-light',
+  size = 'md',
+  shape = 'rounded',
+  class: extraClass = '',
+} = Astro.props;
+
+// === CLASS MAPS ===
+const variantMap: Record<string, string> = {
+  'orange-light': 'bg-orange-light text-orange',
+  orange: 'bg-orange text-white',
+  dark: 'bg-bg-soft text-white border border-edge-dark',
+  white: 'bg-white text-ink border border-edge-light',
+  cream: 'bg-bg-cream text-ink',
+};
+
+const sizeMap: Record<string, string> = {
+  sm: 'w-8 h-8',
+  md: 'w-12 h-12',
+  lg: 'w-16 h-16',
+};
+
+const shapeMap: Record<string, string> = {
+  square: 'rounded-lg',
+  rounded: 'rounded-xl',
+  circle: 'rounded-full',
+};
+
+// === CLASS STRINGS ===
+const cBase = 'inline-flex items-center justify-center flex-shrink-0';
+const cFinal = cBase + ' ' + variantMap[variant] + ' ' + sizeMap[size] + ' ' + shapeMap[shape] + ' ' + extraClass;
+---
+
+<div class={cFinal}>
+  <slot />
+</div>

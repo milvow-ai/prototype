@@ -1,0 +1,56 @@
+---
+/**
+ * Card — wrapper with hover-lift + variant backgrounds.
+ */
+
+// === TYPES ===
+interface Props {
+  variant?: 'light' | 'dark' | 'orange' | 'cream';
+  padding?: 'sm' | 'md' | 'lg';
+  hover?: boolean;
+  as?: 'div' | 'article' | 'section';
+  class?: string;
+}
+
+// === PROPS ===
+const {
+  variant = 'light',
+  padding = 'md',
+  hover = true,
+  as = 'div',
+  class: extraClass = '',
+} = Astro.props;
+
+// === CLASS MAPS ===
+const variantMap: Record<string, string> = {
+  light: 'bg-white border border-edge-light text-ink shadow-card',
+  dark: 'bg-bg-soft border border-edge-dark text-white',
+  orange: 'bg-orange text-bg-primary',
+  cream: 'bg-bg-cream border border-edge-light text-ink',
+};
+
+const paddingMap: Record<string, string> = {
+  sm: 'p-4 md:p-6',
+  md: 'p-6 md:p-8',
+  lg: 'p-8 md:p-10',
+};
+
+const hoverMap: Record<string, string> = {
+  light: 'hover:shadow-card-hover hover:-translate-y-1 hover:border-orange/40',
+  dark: 'hover:border-orange/40 hover:-translate-y-1',
+  orange: 'hover:scale-[1.02]',
+  cream: 'hover:shadow-card-hover hover:-translate-y-1',
+};
+
+// === CLASS STRINGS ===
+const cBase = 'relative rounded-2xl transition-all duration-300';
+const cHover = hover ? hoverMap[variant] : '';
+const cFinal = cBase + ' ' + variantMap[variant] + ' ' + paddingMap[padding] + ' ' + cHover + ' ' + extraClass;
+
+// === DYNAMIC TAG ===
+const Tag = as as 'div' | 'article' | 'section';
+---
+
+<Tag class={cFinal}>
+  <slot />
+</Tag>
