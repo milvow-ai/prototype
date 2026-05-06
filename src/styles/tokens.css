@@ -1,37 +1,37 @@
 /*
- * Solaroofing Design Tokens
- * Edit this file to rebrand the entire site.
- *
- * Values are RGB triplets (no commas) — required by Tailwind's
- * alpha-value modifier syntax: rgb(var(--color-x) / <alpha-value>)
+ * Solaroofing Design Tokens — Tailwind 4 setup
+ * Imports Tailwind, references our JS config, defines tokens.
  */
+
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";
 
 :root {
   /* ===== BACKGROUNDS ===== */
-  --color-bg-primary: 10 10 10;          /* #0A0A0A — main dark bg */
-  --color-bg-soft: 26 26 26;             /* #1A1A1A — dark cards, sections */
-  --color-bg-light: 255 255 255;         /* #FFFFFF — light bg */
-  --color-bg-cream: 248 245 240;         /* #F8F5F0 — warm alt sections */
-  --color-bg-subtle: 241 241 240;        /* #F1F1F0 — very subtle alt */
+  --color-bg-primary: 10 10 10;
+  --color-bg-soft: 26 26 26;
+  --color-bg-light: 255 255 255;
+  --color-bg-cream: 248 245 240;
+  --color-bg-subtle: 241 241 240;
 
   /* ===== ACCENT (orange) ===== */
-  --color-orange: 255 107 26;            /* #FF6B1A */
-  --color-orange-hover: 232 90 14;       /* #E85A0E */
-  --color-orange-light: 255 228 209;     /* #FFE4D1 */
+  --color-orange: 255 107 26;
+  --color-orange-hover: 232 90 14;
+  --color-orange-light: 255 228 209;
 
   /* ===== INK (text on light) ===== */
-  --color-ink: 15 15 15;                 /* #0F0F0F */
-  --color-ink-muted: 90 90 90;           /* #5A5A5A */
-  --color-ink-light: 154 154 154;        /* #9A9A9A */
+  --color-ink: 15 15 15;
+  --color-ink-muted: 90 90 90;
+  --color-ink-light: 154 154 154;
 
   /* ===== WHITE TEXT (text on dark) ===== */
   --color-white: 255 255 255;
-  --color-white-muted: 184 184 184;      /* #B8B8B8 */
-  --color-white-subtle: 107 107 107;     /* #6B6B6B */
+  --color-white-muted: 184 184 184;
+  --color-white-subtle: 107 107 107;
 
   /* ===== EDGE (borders) ===== */
-  --color-edge-dark: 42 42 42;           /* #2A2A2A — borders on dark */
-  --color-edge-light: 229 229 229;       /* #E5E5E5 — borders on light */
+  --color-edge-dark: 42 42 42;
+  --color-edge-light: 229 229 229;
 }
 
 /* ===== BASE ===== */
@@ -51,7 +51,7 @@ html {
   border-radius: 4px;
 }
 
-/* ===== AMBIENT KEYFRAMES (Layer 1 motion) ===== */
+/* ===== AMBIENT KEYFRAMES ===== */
 
 @keyframes float-soft {
   0%, 100% { transform: translateY(0); }
@@ -83,12 +83,7 @@ html {
   50% { box-shadow: 0 0 30px rgb(var(--color-orange) / 0.4); }
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-/* ===== UTILITY CLASSES (ambient motion) ===== */
+/* ===== UTILITY CLASSES ===== */
 
 .animate-float-soft { animation: float-soft 6s ease-in-out infinite; }
 .animate-float-soft-2 { animation: float-soft-rotate 7s ease-in-out infinite 0.5s; }
@@ -98,7 +93,7 @@ html {
 .animate-pulse-soft { animation: pulse-soft 3s ease-in-out infinite; }
 .animate-glow-orange { animation: glow-orange 4s ease-in-out infinite; }
 
-/* ===== SCROLL REVEAL (Layer 3 motion) ===== */
+/* ===== SCROLL REVEAL ===== */
 
 .reveal {
   opacity: 0;
