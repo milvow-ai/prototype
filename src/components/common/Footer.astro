@@ -1,0 +1,100 @@
+---
+/**
+ * Footer
+ * Black multi-column footer. Brand block + 3 link columns + bottom bar.
+ */
+
+// === IMPORTS ===
+import site from '~/content/site.json';
+
+// === SITE DATA ===
+const s: any = site;
+const brandName = s.brand?.name || 'Solaroofing';
+const tagline = s.footer?.tagline || s.brand?.tagline || '';
+const description = 'Leading the UAE\'s industrial energy transition with premium solar and waterproofing solutions since 1994.';
+const copyrightYear = (s.footer?.copyright || '').match(/\d{4}/)?.[0] || '2025';
+const copyrightText = s.footer?.copyright || '2025 Solaroofing. All rights reserved.';
+const columns = s.footer?.columns || [];
+const bottomLinks = s.footer?.bottom?.links || [];
+
+// === CLASS STRINGS ===
+const cFooter = 'relative w-full bg-bg-primary text-white border-t border-edge-dark';
+const cContainer = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16';
+const cGrid = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12';
+const cBrandCol = 'lg:col-span-1';
+const cBrandName = 'text-2xl md:text-3xl font-bold font-display tracking-tight mb-3';
+const cBrandDesc = 'text-sm text-white-muted leading-relaxed max-w-xs';
+const cTagline = 'text-sm text-white-subtle mt-2';
+const cColHeading = 'text-xs font-bold uppercase tracking-wider text-white mb-5';
+const cLinkList = 'flex flex-col gap-3';
+const cLink = 'inline-flex items-center text-sm text-white-muted hover:text-orange transition-colors duration-200 group';
+const cLinkArrow = 'ml-1 inline-block opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200';
+const cNewsletterDesc = 'text-sm text-white-muted mb-4 leading-relaxed';
+const cInputWrap = 'flex items-center gap-2 bg-bg-soft rounded-full p-1 pl-5 border border-edge-dark focus-within:border-orange transition-colors duration-200';
+const cInput = 'flex-1 bg-transparent text-sm text-white placeholder:text-white-subtle outline-none';
+const cInputBtn = 'inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-orange text-white font-semibold text-sm hover:bg-orange-hover active:scale-95 transition-all duration-200';
+const cBottomBar = 'border-t border-edge-dark mt-12 pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-white-subtle';
+const cBottomLinks = 'flex items-center gap-6';
+const cBottomLink = 'hover:text-white transition-colors duration-200';
+---
+
+<footer class={cFooter}>
+  <div class={cContainer}>
+    <div class={cGrid}>
+
+      <div class={cBrandCol}>
+        <div class={cBrandName}>{brandName}</div>
+        <p class={cBrandDesc}>{description}</p>
+        {tagline && <p class={cTagline}>{tagline}</p>}
+      </div>
+
+      {columns.map((col: any) => (
+        <div>
+          <h3 class={cColHeading}>{col.heading}</h3>
+          {col.links && (
+            <ul class={cLinkList}>
+              {col.links.map((link: any) => (
+                <li>
+                  <a href={link.href} class={cLink}>
+                    <span>{link.label}</span>
+                    <span class={cLinkArrow} aria-hidden="true">→</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+          {col.form && (
+            <>
+              {col.description && <p class={cNewsletterDesc}>{col.description}</p>}
+              <form class={cInputWrap} action="#" method="POST" novalidate>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder={col.form.placeholder || 'Your email'}
+                  aria-label="Email address"
+                  class={cInput}
+                />
+                <button type="submit" class={cInputBtn}>
+                  {col.form.submitLabel || 'Join'}
+                </button>
+              </form>
+            </>
+          )}
+        </div>
+      ))}
+
+    </div>
+
+    <div class={cBottomBar}>
+      <div>© {copyrightText}</div>
+      {bottomLinks.length > 0 && (
+        <div class={cBottomLinks}>
+          {bottomLinks.map((link: any) => (
+            <a href={link.href} class={cBottomLink}>{link.label}</a>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</footer>

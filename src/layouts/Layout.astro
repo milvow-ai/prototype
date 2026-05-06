@@ -1,0 +1,154 @@
+---
+/**
+ * Layout
+ * Root HTML shell. Loads tokens, Google Fonts, emits SEO + JSON-LD.
+ * Wraps every page with AnnouncementBar + Nav + main + Footer.
+ * Includes Intersection Observer for scroll-reveal animations.
+ */
+
+// === IMPORTS ===
+import '~/styles/tokens.css';
+import site from '~/content/site.json';
+import AnnouncementBar from '~/components/common/AnnouncementBar.astro';
+import Nav from '~/components/common/Nav.astro';
+import Footer from '~/components/common/Footer.astro';
+import { buildOrganization, buildLocalBusiness, buildWebSite } from '~/lib/schema';
+import { buildMeta } from '~/lib/seo';
+
+// === TYPES ===
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  ogType?: 'website' | 'article';
+}
+
+// === PROPS ===
+const {
+  title,
+  description,
+  ogImage,
+  noindex = false,
+  ogType = 'website',
+} = Astro.props;
+
+// === SITE DATA ===
+const s: any = site;
+const siteName = s.brand?.name || 'Solaroofing';
+const siteUrl = s.meta?.siteUrl || 'https://prototype-milvow.vercel.app';
+const lang = s.meta?.lang || 'en-AE';
+const defaultDescription = s.meta?.description || '';
+const defaultOgImage = s.meta?.ogImage || '/og/og-default.jpg';
+const twitterHandle = s.meta?.twitter || '';
+const ga4Id = s.meta?.ga4Id || '';
+const gscToken = s.meta?.gscToken || '';
+
+// === COMPUTED PAGE STRINGS ===
+const pageTitle = title ? title + ' | ' + siteName : siteName + ' — ' + (s.brand?.tagline || '');
+const pageDescription = description || defaultDescription;
+const pageOgImage = ogImage || defaultOgImage;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+
+const meta = buildMeta({
+  title: pageTitle,
+  description: pageDescription,
+  canonical: canonicalUrl,
+  ogImage: pageOgImage,
+  ogType: ogType,
+  twitterHandle: twitterHandle,
+  locale: lang.replace('-', '_'),
+  siteName: siteName,
+});
+
+// === ANALYTICS STRINGS (pre-computed to defeat smart-quote bug) ===
+const ga4Src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id;
+const gaScript = 'window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "' + ga4Id + '");';
+
+// === STRUCTURED DATA ===
+const orgSchema = buildOrganization(s);
+const websiteSchema = buildWebSite(s);
+const localBusinessSchema = buildLocalBusiness({
+  ...s,
+  contact: {
+    phone: s.contact?.details?.phone?.value,
+    email: s.contact?.details?.email?.value,
+    address: {
+      locality: s.meta?.area,
+      region: s.meta?.city,
+      country: 'AE',
+    },
+  },
+});
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="canonical" href={meta.canonical} />
+
+  <title>{meta.title}</title>
+  <meta name="description" content={meta.description} />
+
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
+  {gscToken && <meta name="google-site-verification" content={gscToken} />}
+
+  <!-- Google Fonts: Plus Jakarta Sans (display+body) + Caveat (cursive accent) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <meta property="og:type" content={meta.og.type} />
+  <meta property="og:title" content={meta.og.title} />
+  <meta property="og:description" content={meta.og.description} />
+  <meta property="og:url" content={meta.og.url} />
+  <meta property="og:image" content={meta.og.image} />
+  <meta property="og:site_name" content={meta.og.siteName} />
+  <meta property="og:locale" content={meta.og.locale} />
+
+  <meta name="twitter:card" content={meta.twitter.card} />
+  <meta name="twitter:title" content={meta.twitter.title} />
+  <meta name="twitter:description" content={meta.twitter.description} />
+  <meta name="twitter:image" content={meta.twitter.image} />
+  {meta.twitter.site && <meta name="twitter:site" content={meta.twitter.site} />}
+
+  <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+
+  {ga4Id && <script async src={ga4Src}></script>}
+  {ga4Id && <script set:html={gaScript} />}
+</head>
+<body class="bg-bg-light text-ink antialiased font-sans">
+  <AnnouncementBar />
+  <Nav />
+  <main>
+    <slot />
+  </main>
+  <Footer />
+
+  <!-- Scroll-reveal Intersection Observer (Layer 3 motion) -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    const elements = document.querySelectorAll('.reveal, .reveal-stagger');
+    elements.forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>

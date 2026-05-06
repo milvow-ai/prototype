@@ -1,0 +1,132 @@
+---
+/**
+ * Nav
+ * Sticky top navigation. Black bg with backdrop blur on scroll.
+ * Logo left, links center, orange "Consultation" CTA right. Hamburger on mobile.
+ */
+
+// === IMPORTS ===
+import site from '~/content/site.json';
+
+// === SITE DATA ===
+const s: any = site;
+const brandName = s.brand?.name || 'Solaroofing';
+const navItems = s.nav?.items || [];
+const ctaLabel = s.nav?.cta?.label || 'Consultation';
+const ctaHref = s.nav?.cta?.href || '/contact';
+
+// === ACTIVE PAGE DETECTION ===
+const currentPath = Astro.url.pathname;
+const isActive = (href: string): boolean => {
+  if (href === '/') return currentPath === '/';
+  if (href.startsWith('/#')) return false;
+  return currentPath === href || currentPath.startsWith(href + '/');
+};
+
+// === CLASS STRINGS ===
+const cHeader = 'sticky top-0 z-40 w-full bg-bg-primary/95 backdrop-blur-md border-b border-edge-dark';
+const cNav = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8';
+const cInner = 'flex items-center justify-between h-16 md:h-20';
+const cBrand = 'flex items-center gap-2 text-white text-xl md:text-2xl font-bold font-display tracking-tight hover:text-orange transition-colors duration-200';
+const cDesktopList = 'hidden md:flex items-center gap-6 lg:gap-8';
+const cLinkBase = 'relative text-sm font-medium text-white-muted hover:text-white transition-colors duration-200 py-2';
+const cLinkActive = 'text-white';
+const cActiveUnderline = 'absolute -bottom-0.5 left-0 right-0 h-0.5 bg-orange rounded-full';
+const cCtaBtn = 'hidden md:inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-orange text-white font-semibold text-sm hover:bg-orange-hover hover:scale-105 active:scale-95 active:brightness-90 shadow-lg shadow-orange/25 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-orange focus-visible:outline-offset-2';
+const cMobileToggle = 'md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-white hover:bg-bg-soft transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-orange focus-visible:outline-offset-2';
+const cMobileIcon = 'w-6 h-6';
+const cMobileIconHidden = 'hidden w-6 h-6';
+const cMobileMenu = 'hidden md:hidden border-t border-edge-dark';
+const cMobileList = 'flex flex-col py-4 gap-1';
+const cMobileLink = 'block px-4 py-3 text-base font-medium text-white-muted hover:text-white hover:bg-bg-soft rounded-lg transition-colors duration-200';
+const cMobileLinkActive = 'text-orange';
+const cMobileCta = 'mx-4 mt-2 inline-flex items-center justify-center px-6 py-3 rounded-full bg-orange text-white font-semibold text-base hover:bg-orange-hover active:scale-95 transition-all duration-200';
+---
+
+<header class={cHeader}>
+  <nav class={cNav} aria-label="Primary">
+    <div class={cInner}>
+      <a href="/" class={cBrand} aria-label={brandName + ' home'}>
+        {brandName}
+      </a>
+
+      <ul class={cDesktopList}>
+        {navItems.map((item: any) => {
+          const active = isActive(item.href);
+          const linkClass = active ? cLinkBase + ' ' + cLinkActive : cLinkBase;
+          return (
+            <li>
+              <a href={item.href} class={linkClass} aria-current={active ? 'page' : undefined}>
+                {item.label}
+                {active && <span class={cActiveUnderline} aria-hidden="true"></span>}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+
+      <a href={ctaHref} class={cCtaBtn}>
+        {ctaLabel}
+      </a>
+
+      <button
+        id="mobile-menu-toggle"
+        type="button"
+        class={cMobileToggle}
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label="Open menu"
+      >
+        <svg id="icon-open" class={cMobileIcon} fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="icon-close" class={cMobileIconHidden} fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class={cMobileMenu}>
+      <ul class={cMobileList}>
+        {navItems.map((item: any) => {
+          const active = isActive(item.href);
+          const linkClass = active ? cMobileLink + ' ' + cMobileLinkActive : cMobileLink;
+          return (
+            <li>
+              <a href={item.href} class={linkClass} aria-current={active ? 'page' : undefined}>{item.label}</a>
+            </li>
+          );
+        })}
+        <li>
+          <a href={ctaHref} class={cMobileCta}>{ctaLabel}</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+
+  if (toggle && menu && iconOpen && iconClose) {
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.contains('hidden') === false;
+      if (isOpen) {
+        menu.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+      } else {
+        menu.classList.remove('hidden');
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close menu');
+      }
+    });
+  }
+</script>

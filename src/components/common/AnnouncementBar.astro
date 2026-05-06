@@ -1,0 +1,37 @@
+---
+/**
+ * AnnouncementBar
+ * Thin orange strip at top of every page. Conditional render.
+ */
+
+// === IMPORTS ===
+import site from '~/content/site.json';
+
+// === SITE DATA ===
+const s: any = site;
+const enabled = s.announcementBar?.enabled === true;
+const text = s.announcementBar?.text || '';
+const ctaLabel = s.announcementBar?.ctaLabel || '';
+const ctaHref = s.announcementBar?.ctaHref || '#';
+
+// === CLASS STRINGS ===
+const cBar = 'relative w-full bg-orange py-2 px-4 text-center text-sm text-bg-primary font-medium';
+const cInner = 'inline-flex flex-wrap items-center justify-center gap-2';
+const cText = 'text-bg-primary';
+const cCta = 'inline-flex items-center gap-1 underline underline-offset-2 hover:no-underline font-semibold focus-visible:outline-2 focus-visible:outline-bg-primary focus-visible:outline-offset-2';
+const cArrow = 'inline-block transition-transform duration-200 group-hover:translate-x-0.5';
+---
+
+{enabled && (
+  <div class={cBar} role="region" aria-label="Site announcement">
+    <div class={cInner}>
+      <span class={cText}>{text}</span>
+      {ctaLabel && (
+        <a href={ctaHref} class={cCta + ' group'}>
+          <span>{ctaLabel}</span>
+          <span class={cArrow} aria-hidden="true">→</span>
+        </a>
+      )}
+    </div>
+  </div>
+)}
