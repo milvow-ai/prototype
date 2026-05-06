@@ -1,0 +1,168 @@
+/*
+ * Solaroofing Design Tokens
+ * Edit this file to rebrand the entire site.
+ *
+ * Values are RGB triplets (no commas) — required by Tailwind's
+ * alpha-value modifier syntax: rgb(var(--color-x) / <alpha-value>)
+ */
+
+:root {
+  /* ===== BACKGROUNDS ===== */
+  --color-bg-primary: 10 10 10;          /* #0A0A0A — main dark bg */
+  --color-bg-soft: 26 26 26;             /* #1A1A1A — dark cards, sections */
+  --color-bg-light: 255 255 255;         /* #FFFFFF — light bg */
+  --color-bg-cream: 248 245 240;         /* #F8F5F0 — warm alt sections */
+  --color-bg-subtle: 241 241 240;        /* #F1F1F0 — very subtle alt */
+
+  /* ===== ACCENT (orange) ===== */
+  --color-orange: 255 107 26;            /* #FF6B1A */
+  --color-orange-hover: 232 90 14;       /* #E85A0E */
+  --color-orange-light: 255 228 209;     /* #FFE4D1 */
+
+  /* ===== INK (text on light) ===== */
+  --color-ink: 15 15 15;                 /* #0F0F0F */
+  --color-ink-muted: 90 90 90;           /* #5A5A5A */
+  --color-ink-light: 154 154 154;        /* #9A9A9A */
+
+  /* ===== WHITE TEXT (text on dark) ===== */
+  --color-white: 255 255 255;
+  --color-white-muted: 184 184 184;      /* #B8B8B8 */
+  --color-white-subtle: 107 107 107;     /* #6B6B6B */
+
+  /* ===== EDGE (borders) ===== */
+  --color-edge-dark: 42 42 42;           /* #2A2A2A — borders on dark */
+  --color-edge-light: 229 229 229;       /* #E5E5E5 — borders on light */
+}
+
+/* ===== BASE ===== */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--color-orange));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ===== AMBIENT KEYFRAMES (Layer 1 motion) ===== */
+
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes float-soft-rotate {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(0.5deg); }
+}
+
+@keyframes sparkle-breath {
+  0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.6; }
+  50% { transform: rotate(180deg) scale(1.1); opacity: 1; }
+}
+
+@keyframes drift-slow {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -12px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.05); }
+}
+
+@keyframes glow-orange {
+  0%, 100% { box-shadow: 0 0 20px rgb(var(--color-orange) / 0.2); }
+  50% { box-shadow: 0 0 30px rgb(var(--color-orange) / 0.4); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ===== UTILITY CLASSES (ambient motion) ===== */
+
+.animate-float-soft { animation: float-soft 6s ease-in-out infinite; }
+.animate-float-soft-2 { animation: float-soft-rotate 7s ease-in-out infinite 0.5s; }
+.animate-float-soft-3 { animation: float-soft 5s ease-in-out infinite 1s; }
+.animate-sparkle { animation: sparkle-breath 12s ease-in-out infinite; }
+.animate-drift-slow { animation: drift-slow 20s ease-in-out infinite; }
+.animate-pulse-soft { animation: pulse-soft 3s ease-in-out infinite; }
+.animate-glow-orange { animation: glow-orange 4s ease-in-out infinite; }
+
+/* ===== SCROLL REVEAL (Layer 3 motion) ===== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+.reveal-stagger.is-visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0ms; }
+.reveal-stagger.is-visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 80ms; }
+.reveal-stagger.is-visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 160ms; }
+.reveal-stagger.is-visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 240ms; }
+.reveal-stagger.is-visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 320ms; }
+.reveal-stagger.is-visible > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 400ms; }
+.reveal-stagger.is-visible > *:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 480ms; }
+.reveal-stagger.is-visible > *:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 560ms; }
+.reveal-stagger.is-visible > *:nth-child(n+9) { opacity: 1; transform: translateY(0); transition-delay: 640ms; }
+
+/* ===== GRADIENT UTILITIES ===== */
+
+.bg-hero-gradient {
+  background: radial-gradient(circle at top right, rgb(var(--color-orange) / 0.15) 0%, rgb(var(--color-bg-primary)) 60%);
+}
+
+.bg-cta-gradient {
+  background: linear-gradient(135deg, rgb(var(--color-orange)) 0%, rgb(var(--color-orange-hover)) 100%);
+}
+
+.text-gradient-orange {
+  background: linear-gradient(135deg, rgb(var(--color-orange)) 0%, rgb(var(--color-orange-hover)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ===== REDUCED MOTION ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal, .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ===== PRINT ===== */
+
+@media print {
+  .whatsapp-float, .mobile-conversion-strip, nav, footer { display: none !important; }
+  body { background: white !important; color: black !important; }
+}

@@ -1,0 +1,118 @@
+{
+  "pages": {
+    "home": {
+      "route": "/",
+      "title": "Solaroofing — Trusted Roof Waterproofing & Solar Energy Solutions",
+      "description": "UAE's most trusted commercial rooftop specialists since 1994. Waterproofing, solar PV, complete roof restoration.",
+      "ogImage": "/og/og-default.jpg",
+      "sections": [
+        { "component": "AnnouncementBar", "variant": "v1" },
+        { "component": "Hero", "variant": "split-image" },
+        { "component": "TrustLogos", "variant": "marquee" },
+        { "component": "WhyChoose", "variant": "accordion" },
+        { "component": "Process", "variant": "dark-numbered" },
+        { "component": "Services", "variant": "two-card" },
+        { "component": "Testimonials", "variant": "three-card-dark" },
+        { "component": "Stats", "variant": "horizontal-bullets" },
+        { "component": "YearsExcellence", "variant": "image-pills" },
+        { "component": "FinalCta", "variant": "orange-fullbleed" }
+      ]
+    },
+    "about": {
+      "route": "/about",
+      "title": "About Us — Solaroofing",
+      "description": "Powering Dubai's rooftops since 1994. A family business built on three generations of trust.",
+      "ogImage": "/og/og-about.jpg",
+      "sections": [
+        { "component": "AboutHero", "variant": "watermark-overlay" },
+        { "component": "AboutStory", "variant": "milestones-image" },
+        { "component": "AboutPromise", "variant": "split-dark" },
+        { "component": "AboutTimeline", "variant": "horizontal-dots" },
+        { "component": "AboutGroupFamily", "variant": "five-card-grid" },
+        { "component": "FinalCta", "variant": "orange-fullbleed" }
+      ]
+    },
+    "projects": {
+      "route": "/projects",
+      "title": "Our Featured Projects — Solaroofing",
+      "description": "500+ rooftop projects delivered across UAE and GCC. Solar PV, waterproofing, industrial, commercial.",
+      "ogImage": "/og/og-projects.jpg",
+      "sections": [
+        { "component": "ProjectsHero", "variant": "image-stats" },
+        { "component": "ClientStrip", "variant": "marquee" },
+        { "component": "FilterBar", "variant": "tabs-pills" },
+        { "component": "ProjectGrid", "variant": "three-col-cards" },
+        { "component": "FeaturedCaseStudy", "variant": "split-dark" },
+        { "component": "StatsBanner", "variant": "four-col-cream" },
+        { "component": "FinalCta", "variant": "orange-fullbleed" }
+      ]
+    },
+    "calculator": {
+      "route": "/calculator",
+      "title": "Solar Calculator For The UAE — Solaroofing",
+      "description": "Estimate your solar savings under DEWA's Shams Dubai Program. Free tool.",
+      "ogImage": "/og/og-calculator.jpg",
+      "sections": [
+        { "component": "CalculatorHero", "variant": "image-cursive" },
+        { "component": "CalculatorForm", "variant": "card-results" },
+        { "component": "HowItWorks", "variant": "three-step-numbered" },
+        { "component": "DewaInfoStrip", "variant": "dark-pills" },
+        { "component": "FinalCta", "variant": "orange-fullbleed" }
+      ]
+    },
+    "publications": {
+      "route": "/publications",
+      "title": "Publications & Blog — Solaroofing",
+      "description": "Industry news, project case studies, and updates from the Solaroofing team.",
+      "ogImage": "/og/og-publications.jpg",
+      "sections": [
+        { "component": "PublicationsHero", "variant": "image-overlay-card" },
+        { "component": "FilterBar", "variant": "tabs-pills" },
+        { "component": "FeaturedArticle", "variant": "split-image-content" },
+        { "component": "ArticleGrid", "variant": "four-col-cards" },
+        { "component": "Newsletter", "variant": "dark-signup" }
+      ]
+    },
+    "contact": {
+      "route": "/contact",
+      "title": "Contact Us — Solaroofing",
+      "description": "Get in touch with Solaroofing. UAE's trusted commercial roofing specialists.",
+      "ogImage": "/og/og-contact.jpg",
+      "sections": [
+        { "component": "AnnouncementBar", "variant": "v1" },
+        { "component": "ContactHero", "variant": "watermark-text" },
+        { "component": "ContactTwoPanel", "variant": "form-details-split" },
+        { "component": "MapSection", "variant": "fullbleed-card-overlay" },
+        { "component": "ProjectCta", "variant": "dark-cursive" }
+      ]
+    },
+    "privacy": {
+      "route": "/privacy",
+      "title": "Privacy Policy — Solaroofing",
+      "description": "How Solaroofing handles your data and privacy.",
+      "ogImage": "/og/og-default.jpg",
+      "sections": [
+        { "component": "LegalPage", "variant": "privacy" }
+      ]
+    },
+    "terms": {
+      "route": "/terms",
+      "title": "Terms of Service — Solaroofing",
+      "description": "Terms of service for using Solaroofing's website and services.",
+      "ogImage": "/og/og-default.jpg",
+      "sections": [
+        { "component": "LegalPage", "variant": "terms" }
+      ]
+    },
+    "404": {
+      "route": "/404",
+      "title": "Page Not Found — Solaroofing",
+      "description": "The page you're looking for doesn't exist.",
+      "ogImage": "/og/og-default.jpg",
+      "noindex": true,
+      "sections": [
+        { "component": "NotFound", "variant": "centered" }
+      ]
+    }
+  }
+}
