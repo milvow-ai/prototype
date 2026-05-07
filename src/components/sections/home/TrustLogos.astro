@@ -1,0 +1,35 @@
+---
+/**
+ * TrustLogos (home)
+ * Cream-bg client logo strip with tagline. Static row on desktop.
+ */
+
+// === IMPORTS ===
+import site from '~/content/site.json';
+import Container from '~/components/ui/Container.astro';
+
+// === SITE DATA ===
+const s: any = site;
+const tagline = s.trustLogos?.tagline || '';
+const items = s.trustLogos?.items || [];
+
+// === CLASS STRINGS ===
+const cSection = 'w-full bg-bg-primary border-y border-edge-dark py-8 md:py-10';
+const cTagline = 'text-center text-xs uppercase tracking-[0.2em] text-white-subtle font-bold mb-6';
+const cRow = 'flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-16';
+const cLogoWrap = 'opacity-60 hover:opacity-100 transition-opacity duration-300';
+const cLogoText = 'text-lg md:text-xl font-display font-bold text-white whitespace-nowrap';
+---
+
+<section class={cSection} aria-label="Trusted by">
+  <Container>
+    {tagline && <p class={cTagline}>{tagline}</p>}
+    <div class={cRow}>
+      {items.map((item: any) => (
+        <div class={cLogoWrap}>
+          <span class={cLogoText}>{item.name}</span>
+        </div>
+      ))}
+    </div>
+  </Container>
+</section>

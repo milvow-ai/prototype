@@ -1,0 +1,57 @@
+---
+/**
+ * Process (home)
+ * Black bg. Heading + subheading + 4 dark numbered step cards (2x2 grid).
+ */
+
+// === IMPORTS ===
+import site from '~/content/site.json';
+import Section from '~/components/ui/Section.astro';
+import Container from '~/components/ui/Container.astro';
+import Heading from '~/components/ui/Heading.astro';
+import Text from '~/components/ui/Text.astro';
+import Eyebrow from '~/components/ui/Eyebrow.astro';
+
+// === SITE DATA ===
+const s: any = site;
+const eyebrow = s.process?.eyebrow || 'THE PROCESS';
+const heading = s.process?.heading || '';
+const subheading = s.process?.subheading || '';
+const steps = s.process?.steps || [];
+
+// === CLASS STRINGS ===
+const cHeader = 'flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12 reveal';
+const cHeaderLeft = 'lg:max-w-2xl';
+const cHeaderRight = 'lg:max-w-md';
+const cGrid = 'grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 reveal-stagger';
+const cCard = 'group bg-bg-soft border border-edge-dark rounded-2xl p-8 hover:border-orange/40 hover:-translate-y-1 transition-all duration-300';
+const cNum = 'text-4xl md:text-5xl font-display font-bold text-orange leading-none mb-4 inline-block';
+const cTitle = 'text-xl md:text-2xl font-display font-bold text-white mb-3';
+const cDesc = 'text-sm md:text-base text-white-muted leading-relaxed';
+---
+
+<Section id="process" background="dark" spacing="lg" ariaLabel="Process">
+  <Container>
+    <div class={cHeader}>
+      <div class={cHeaderLeft}>
+        <Eyebrow variant="plain">{eyebrow}</Eyebrow>
+        <Heading level={2} size="xl" variant="white" class="mt-4">{heading}</Heading>
+      </div>
+      {subheading && (
+        <div class={cHeaderRight}>
+          <Text size="base" variant="white-muted">{subheading}</Text>
+        </div>
+      )}
+    </div>
+
+    <div class={cGrid}>
+      {steps.map((step: any) => (
+        <article class={cCard}>
+          <span class={cNum}>{step.number}</span>
+          <h3 class={cTitle}>{step.title}</h3>
+          <p class={cDesc}>{step.description}</p>
+        </article>
+      ))}
+    </div>
+  </Container>
+</Section>

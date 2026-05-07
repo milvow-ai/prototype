@@ -1,13 +1,33 @@
 ---
+/**
+ * Home page (/)
+ * Composes the Solaroofing home section sequence.
+ */
+
+// === IMPORTS ===
 import Layout from '~/layouts/Layout.astro';
+import Hero from '~/components/sections/home/Hero.astro';
+import TrustLogos from '~/components/sections/home/TrustLogos.astro';
+import WhyChoose from '~/components/sections/home/WhyChoose.astro';
+import Process from '~/components/sections/home/Process.astro';
+import Services from '~/components/sections/home/Services.astro';
+import Testimonials from '~/components/sections/home/Testimonials.astro';
+import Stats from '~/components/sections/home/Stats.astro';
+import YearsExcellence from '~/components/sections/home/YearsExcellence.astro';
+import FinalCta from '~/components/sections/home/FinalCta.astro';
 ---
 
-<Layout>
-  <div class="min-h-[60vh] flex items-center justify-center bg-bg-cream">
-    <div class="text-center px-4 py-16">
-      <h1 class="text-4xl md:text-6xl font-display font-bold text-ink mb-4">Wave 2 deployed</h1>
-      <p class="text-lg text-ink-muted">Layout shell with Nav + Footer + AnnouncementBar working.</p>
-      <p class="text-sm text-ink-light mt-2">Sections coming in Wave 5.</p>
-    </div>
-  </div>
+<Layout
+  title="Trusted Roof Waterproofing & Solar Energy Solutions"
+  description="UAE's most trusted commercial rooftop specialists since 1994. Waterproofing, solar PV, complete roof restoration."
+>
+  <Hero />
+  <TrustLogos />
+  <WhyChoose />
+  <Process />
+  <Services />
+  <Testimonials />
+  <Stats />
+  <YearsExcellence />
+  <FinalCta source="home" />
 </Layout>

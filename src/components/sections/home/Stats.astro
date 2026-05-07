@@ -1,0 +1,40 @@
+---
+/**
+ * Stats (home)
+ * Subtle bg. Horizontal stat strip with bullet separators between items.
+ */
+
+// === IMPORTS ===
+import site from '~/content/site.json';
+import Container from '~/components/ui/Container.astro';
+
+// === SITE DATA ===
+const s: any = site;
+const items = s.stats?.items || [];
+
+// === CLASS STRINGS ===
+const cSection = 'w-full bg-bg-primary py-8 md:py-10 border-y border-edge-dark';
+const cRow = 'flex flex-wrap items-center justify-center gap-6 md:gap-12';
+const cItem = 'inline-flex items-center gap-3';
+const cDot = 'w-1.5 h-1.5 rounded-full bg-orange';
+const cValue = 'text-2xl md:text-3xl font-display font-bold text-white';
+const cLabel = 'text-xs md:text-sm text-white-muted uppercase tracking-wider';
+const cDivider = 'hidden md:inline-block w-px h-8 bg-edge-dark';
+---
+
+<section class={cSection} aria-label="Key performance stats">
+  <Container>
+    <div class={cRow}>
+      {items.map((stat: any, i: number) => (
+        <>
+          <div class={cItem}>
+            <span class={cDot} aria-hidden="true"></span>
+            <span class={cValue}>{stat.value}</span>
+            <span class={cLabel}>{stat.label}</span>
+          </div>
+          {i < items.length - 1 && <span class={cDivider} aria-hidden="true"></span>}
+        </>
+      ))}
+    </div>
+  </Container>
+</section>

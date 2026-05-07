@@ -1,0 +1,130 @@
+---
+/**
+ * Hero (home)
+ * Black bg with orange radial glow. Headline left + cursive "Solutions" overlay,
+ * floating stat badges right, "WORKING SINCE 1994" bottom strip.
+ */
+
+// === IMPORTS ===
+import site from '~/content/site.json';
+import Container from '~/components/ui/Container.astro';
+import Heading from '~/components/ui/Heading.astro';
+import Text from '~/components/ui/Text.astro';
+import Button from '~/components/ui/Button.astro';
+import CursiveAccent from '~/components/ui/CursiveAccent.astro';
+
+// === SITE DATA ===
+const s: any = site;
+const trustBadge = s.hero?.trustBadge || '';
+const trustRating = s.hero?.trustRating || '';
+const line1 = s.hero?.headlineLine1 || '';
+const line2 = s.hero?.headlineLine2 || '';
+const line3 = s.hero?.headlineLine3 || '';
+const cursive = s.hero?.headlineCursive || 'Solutions';
+const description = s.hero?.description || '';
+const primaryCta = s.hero?.primaryCta || { label: 'Explore Services', href: '#services' };
+const secondaryCta = s.hero?.secondaryCta || { label: 'View Portfolio', href: '/projects' };
+const stats = s.hero?.stats || [];
+const smallBadges = s.hero?.smallBadges || [];
+const bottomCaption = s.hero?.bottomCaption || '';
+const heroImage = s.hero?.image || '';
+const heroImageAlt = s.hero?.imageAlt || '';
+
+// === CLASS STRINGS ===
+const cSection = 'relative w-full bg-bg-primary text-white overflow-hidden bg-hero-gradient';
+const cInner = 'relative pt-12 pb-20 md:pt-20 md:pb-24 lg:pt-24 lg:pb-32';
+const cBgImg = 'absolute inset-0 opacity-20 pointer-events-none';
+const cBgImgEl = 'w-full h-full object-cover';
+const cBgFade = 'absolute inset-0 bg-gradient-to-r from-bg-primary via-bg-primary/80 to-transparent pointer-events-none';
+const cTrustStrip = 'flex items-center gap-3 mb-8 reveal';
+const cTrustDots = 'inline-flex -space-x-1';
+const cTrustDot = 'w-5 h-5 rounded-full border-2 border-bg-primary';
+const cTrustText = 'text-xs text-white-muted';
+const cTrustRating = 'text-orange font-bold';
+const cGrid = 'relative grid lg:grid-cols-12 gap-10 items-start';
+const cLeft = 'lg:col-span-7 reveal-stagger';
+const cHeadline = 'mb-6';
+const cCursiveWrap = 'relative inline-block ml-2';
+const cDesc = 'max-w-xl mb-8';
+const cCtaRow = 'flex flex-wrap items-center gap-4';
+const cRight = 'lg:col-span-5 relative flex flex-col gap-4 reveal';
+const cStatCard = 'bg-bg-soft/80 backdrop-blur-sm border border-edge-dark rounded-2xl p-6 flex items-center gap-4 hover:border-orange/40 transition-colors duration-300';
+const cStatNum = 'text-4xl md:text-5xl font-display font-bold text-orange leading-none';
+const cStatLabel = 'text-sm text-white-muted uppercase tracking-wider';
+const cBadgeRow = 'flex flex-wrap gap-2 mt-2';
+const cSmallBadge = 'inline-flex items-center px-3 py-1.5 rounded-full bg-bg-soft border border-edge-dark text-xs text-white-muted font-medium';
+const cBottomStrip = 'absolute bottom-4 left-0 right-0 text-center text-[10px] md:text-xs text-white-subtle uppercase tracking-[0.3em] font-bold pointer-events-none';
+---
+
+<section class={cSection} aria-labelledby="hero-headline">
+  {heroImage && (
+    <div class={cBgImg}>
+      <img src={heroImage} alt="" width="1920" height="1080" class={cBgImgEl} loading="eager" decoding="async" />
+    </div>
+  )}
+  <div class={cBgFade}></div>
+
+  <div class={cInner}>
+    <Container>
+      <div class={cTrustStrip}>
+        <div class={cTrustDots} aria-hidden="true">
+          <span class={cTrustDot + ' bg-orange'}></span>
+          <span class={cTrustDot + ' bg-bg-light'}></span>
+          <span class={cTrustDot + ' bg-orange-hover'}></span>
+          <span class={cTrustDot + ' bg-orange-light'}></span>
+        </div>
+        <p class={cTrustText}>
+          <span class={cTrustRating}>★ {trustRating}</span> {trustBadge}
+        </p>
+      </div>
+
+      <div class={cGrid}>
+        <div class={cLeft}>
+          <div class={cHeadline}>
+            <Heading level={1} size="2xl" variant="white" id="hero-headline">
+              {line1}<br />
+              {line2}<br />
+              {line3}
+              <span class={cCursiveWrap}>
+                <CursiveAccent variant="orange" size="lg" rotate="subtle">{cursive}</CursiveAccent>
+              </span>
+            </Heading>
+          </div>
+
+          <Text size="lg" variant="white-muted" class={cDesc}>{description}</Text>
+
+          <div class={cCtaRow}>
+            <Button href={primaryCta.href} variant="primary" size="lg" withArrow>
+              {primaryCta.label}
+            </Button>
+            <Button href={secondaryCta.href} variant="outline-white" size="lg">
+              {secondaryCta.label}
+            </Button>
+          </div>
+        </div>
+
+        <div class={cRight}>
+          {stats.map((stat: any) => (
+            <div class={cStatCard}>
+              <div class={cStatNum}>{stat.value}</div>
+              <div>
+                <div class={cStatLabel}>{stat.label}</div>
+              </div>
+            </div>
+          ))}
+          {smallBadges.length > 0 && (
+            <div class={cBadgeRow}>
+              {smallBadges.map((badge: string) => (
+                <span class={cSmallBadge}>{badge}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </Container>
+
+    {bottomCaption && (
+      <div class={cBottomStrip}>{bottomCaption}</div>
+    )}
+  </div>
+</section>

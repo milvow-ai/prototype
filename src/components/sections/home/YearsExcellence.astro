@@ -1,0 +1,50 @@
+---
+/**
+ * YearsExcellence (home)
+ * Dark bg. Centered headline + 4 feature pills row + decorative illustration.
+ */
+
+// === IMPORTS ===
+import site from '~/content/site.json';
+import Section from '~/components/ui/Section.astro';
+import Container from '~/components/ui/Container.astro';
+import Heading from '~/components/ui/Heading.astro';
+
+// === SITE DATA ===
+const s: any = site;
+const heading = s.yearsExcellence?.heading || '';
+const features = s.yearsExcellence?.features || [];
+const image = s.yearsExcellence?.image || '';
+
+// === CLASS STRINGS ===
+const cWrapper = 'relative reveal';
+const cImageBg = 'absolute inset-0 opacity-30 pointer-events-none flex items-center justify-center';
+const cImageEl = 'max-w-2xl w-full h-auto';
+const cContent = 'relative z-10 text-center max-w-3xl mx-auto py-8';
+const cPills = 'flex flex-wrap items-center justify-center gap-3 md:gap-4 mt-8';
+const cPill = 'inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-bg-soft border border-edge-dark text-sm font-semibold text-white hover:border-orange/40 transition-colors duration-300';
+const cPillDot = 'w-2 h-2 rounded-full bg-orange';
+---
+
+<Section background="dark" spacing="lg" ariaLabel="Years of solar excellence">
+  <Container>
+    <div class={cWrapper}>
+      {image && (
+        <div class={cImageBg} aria-hidden="true">
+          <img src={image} alt="" width="800" height="600" class={cImageEl} loading="lazy" decoding="async" />
+        </div>
+      )}
+      <div class={cContent}>
+        <Heading level={2} size="xl" variant="white" align="center">{heading}</Heading>
+        <div class={cPills}>
+          {features.map((feat: string) => (
+            <span class={cPill}>
+              <span class={cPillDot} aria-hidden="true"></span>
+              {feat}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Container>
+</Section>

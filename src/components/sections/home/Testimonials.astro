@@ -1,0 +1,49 @@
+---
+/**
+ * Testimonials (home)
+ * Black bg. 3 dark cards with 5-star rating + quote + author.
+ */
+
+// === IMPORTS ===
+import site from '~/content/site.json';
+import Section from '~/components/ui/Section.astro';
+import Container from '~/components/ui/Container.astro';
+
+// === SITE DATA ===
+const s: any = site;
+const items = s.testimonials?.items || [];
+
+// === CLASS STRINGS ===
+const cGrid = 'grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 reveal-stagger';
+const cCard = 'bg-bg-soft border border-edge-dark rounded-2xl p-6 md:p-8 hover:border-orange/40 transition-colors duration-300';
+const cStars = 'flex items-center gap-0.5 text-orange mb-5 text-lg';
+const cQuote = 'text-sm md:text-base text-white-muted leading-relaxed mb-6';
+const cAuthor = 'flex items-center gap-3 pt-5 border-t border-edge-dark';
+const cAvatar = 'w-10 h-10 rounded-full bg-orange-light flex items-center justify-center text-orange font-bold text-sm';
+const cName = 'text-sm font-bold text-white';
+const cRole = 'text-xs text-white-subtle uppercase tracking-wider';
+
+const getInitial = (name: string) => (name || '?').charAt(0).toUpperCase();
+---
+
+<Section background="dark" spacing="lg" ariaLabel="Customer testimonials">
+  <Container>
+    <div class={cGrid}>
+      {items.map((t: any) => (
+        <article class={cCard}>
+          <div class={cStars} aria-label={(t.rating || 5) + ' out of 5 stars'}>
+            <span aria-hidden="true">★ ★ ★ ★ ★</span>
+          </div>
+          <p class={cQuote}>"{t.quote}"</p>
+          <div class={cAuthor}>
+            <div class={cAvatar} aria-hidden="true">{getInitial(t.name)}</div>
+            <div>
+              <div class={cName}>{t.name}</div>
+              <div class={cRole}>{t.role}</div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </Container>
+</Section>

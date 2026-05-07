@@ -1,0 +1,80 @@
+---
+/**
+ * FinalCta (home + reused on other pages)
+ * Orange full-bleed bg. Big headline + 2 black buttons + 3 trust pills with checkmarks.
+ */
+
+// === IMPORTS ===
+import site from '~/content/site.json';
+import Container from '~/components/ui/Container.astro';
+import Heading from '~/components/ui/Heading.astro';
+import Button from '~/components/ui/Button.astro';
+
+// === TYPES ===
+interface Props {
+  source?: 'home' | 'about' | 'projects' | 'calculator' | 'contact';
+}
+
+// === PROPS ===
+const { source = 'home' } = Astro.props;
+
+// === SITE DATA ===
+const s: any = site;
+const cta = source === 'about'
+  ? s.about?.finalCta
+  : source === 'calculator'
+  ? s.calculator?.finalCta
+  : s.finalCta;
+
+const heading = cta?.heading || s.finalCta?.heading || 'Ready To Get Started?';
+const primaryCta = cta?.primaryCta || s.finalCta?.primaryCta || cta?.ctaLabel
+  ? { label: cta?.ctaLabel || s.finalCta?.primaryCta?.label, href: cta?.ctaHref || s.finalCta?.primaryCta?.href }
+  : { label: 'Book Free Assessment', href: '/contact' };
+const secondaryCta = cta?.secondaryCta || s.finalCta?.secondaryCta;
+const trustPills = s.finalCta?.trustPills || [];
+
+// === CLASS STRINGS ===
+const cSection = 'relative w-full bg-orange py-20 md:py-28 lg:py-32 overflow-hidden';
+const cInner = 'relative text-center max-w-4xl mx-auto reveal';
+const cHeading = 'mb-10';
+const cCtaRow = 'flex flex-wrap items-center justify-center gap-4 mb-8';
+const cPills = 'flex flex-wrap items-center justify-center gap-x-6 gap-y-2';
+const cPill = 'inline-flex items-center gap-2 text-sm font-semibold text-bg-primary';
+const cCheck = 'w-4 h-4 flex-shrink-0';
+---
+
+<section class={cSection} aria-label="Call to action">
+  <Container>
+    <div class={cInner}>
+      <div class={cHeading}>
+        <Heading level={2} size="2xl" align="center" class="text-bg-primary">{heading}</Heading>
+      </div>
+
+      <div class={cCtaRow}>
+        {primaryCta?.label && (
+          <Button href={primaryCta.href} variant="black-on-orange" size="lg">
+            {primaryCta.label}
+          </Button>
+        )}
+        {secondaryCta?.label && (
+          <Button href={secondaryCta.href} variant="outline-black" size="lg">
+            {secondaryCta.label}
+          </Button>
+        )}
+      </div>
+
+      {trustPills.length > 0 && (
+        <div class={cPills}>
+          {trustPills.map((pill: string) => (
+            <span class={cPill}>
+              <svg class={cCheck} fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              {pill}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  </Container>
+</section>
